@@ -1,0 +1,34 @@
+#include <SoftwareSerial.h>
+SoftwareSerial XBee(6, 7); // RX, TX
+
+const int XBee_wake = 9; // Arduino pin used to sleep the XBee
+
+void setup(void) {
+  
+  XBee.begin(9600);
+  Serial.begin(9600);
+  Serial.print("Begin");
+  
+}
+
+void loop(void) {
+
+  int i=0;
+  // wake up the XBee
+  pinMode(XBee_wake, OUTPUT);
+  delay(1000);
+  digitalWrite(XBee_wake, LOW);
+  delay(1000);
+
+  XBee.print("1");
+  XBee.write("send");
+  Serial.print("Send");
+  delay(2000);
+
+  // put the XBee to sleep
+  pinMode(XBee_wake, INPUT); // put pin in a high impedence state
+  delay(1000);
+  digitalWrite(XBee_wake, HIGH);
+  delay(5000);
+
+}
